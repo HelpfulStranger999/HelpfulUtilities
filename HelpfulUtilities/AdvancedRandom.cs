@@ -29,7 +29,7 @@ namespace HelpfulUtilities
         /// </summary>
         /// <param name="secure">Whether this RNG should be secure.</param>
         /// <param name="seed">The seed that should be used for the random number generator if insecure.</param>
-        public AdvancedRandom(bool secure, int seed = -1)
+        public AdvancedRandom(bool secure = false, int seed = -1)
         {
             IsSecure = secure;
             if (secure)

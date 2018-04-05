@@ -326,3 +326,5 @@ ASALocalRun/
 
 # NVidia Nsight GPU debugger configuration file
 *.nvuser
+/Discord.NET Utilities/Extensions/Extensions.cs
+/Discord.NET Utilities/Class1.cs
