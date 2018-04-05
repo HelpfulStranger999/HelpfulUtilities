@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HelpfulUtilities.Extensions
+﻿namespace HelpfulUtilities.Extensions
 {
     /// <summary>
     /// This class provides a host of extension methods pertaining to Discord.NET (WebSocket and Rest)
