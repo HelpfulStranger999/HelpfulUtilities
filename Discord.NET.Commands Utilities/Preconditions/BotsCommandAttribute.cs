@@ -16,6 +16,7 @@ namespace HelpfulUtilities.Discord.Commands.Preconditions
         /// <summary>Constructs the precondition with whether bots can perform the command as an optional parameter.</summary>
         public BotsCommandAttribute(bool value = false) => Value = value;
 
+        /// <summary>Checks whether a bot is attempting to perform the command and that it can.</summary>
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
             if (context.User.IsBot)
