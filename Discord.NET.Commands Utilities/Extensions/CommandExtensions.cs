@@ -35,7 +35,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
         /// <returns>Whether this command is hidden</returns>
         public static bool IsHidden(this CommandInfo command)
         {
-            return command.GetAttribute<HiddenAttribute>() != null;
+            return command.Module.IsHidden() || command.GetAttribute<HiddenAttribute>() != null;
         }
 
         /// <summary>Returns the name of this command</summary>
