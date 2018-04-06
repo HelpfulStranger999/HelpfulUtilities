@@ -17,4 +17,10 @@ namespace HelpfulUtilities.Discord.Commands
         /// <summary>Handle non-commands.</summary>
         Task ExecuteAsync();
     }
+
+    /// <summary>A listener interface that implements <see cref="SocketCommandContext"/></summary>
+    public interface ISocketListener : IListener<SocketCommandContext> { }
+
+    /// <summary>A listener interface that implements <see cref="ShardedCommandContext"/></summary>
+    public interface IShardedListener : IListener<ShardedCommandContext> { }
 }

@@ -26,21 +26,15 @@ namespace HelpfulUtilities.Discord.Commands
 
         /// <summary>Optional Socket Client.</summary>
         [DontInject]
-        protected BaseSocketClient Client { get; }
+        protected DiscordSocketClient Client => Services.GetService<DiscordSocketClient>();
+
+        /// <summary>Optional Sharded Client</summary>
+        [DontInject]
+        protected DiscordShardedClient ShardedClient => Services.GetService<DiscordShardedClient>();
 
         /// <summary>Optional Rest Client</summary>
         [DontInject]
-        protected DiscordRestClient Rest { get; }
-
-        /// <summary>Constructs a new instance of this module base.</summary>
-        public DiscordModuleBase(IServiceProvider services)
-        {
-            BaseSocketClient client = services.GetService<DiscordSocketClient>();
-            if (client == null) client = services.GetService<DiscordShardedClient>() ?? null;
-            Client = client;
-
-            Rest = services.GetService<DiscordRestClient>() ?? null;
-        }
+        protected DiscordRestClient Rest => Services.GetService<DiscordRestClient>();
 
         /// <summary>Sends a message to the source channel and deletes it after a specified duration in milliseconds.</summary>
         public virtual Task ReplyDeleteAsync(ulong millis, string text = "", bool isTTS = false, Embed embed = null, RequestOptions options = null)

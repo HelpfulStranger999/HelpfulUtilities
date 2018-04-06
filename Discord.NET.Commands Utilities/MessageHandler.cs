@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using HelpfulUtilities.Discord.Commands;
 using Discord.WebSocket;
 using HelpfulUtilities.Discord.Commands.Extensions;
 using HelpfulUtilities.Extensions;
@@ -11,6 +10,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using GlobalPreconditions = System.Collections.Generic.IEnumerable<System.Func<Discord.Commands.ICommandContext, bool>>;
 using ContextCreator = System.Func<Discord.IUserMessage, Discord.Commands.ICommandContext>;
+using CommandResultHandler = System.Func<Discord.IUserMessage, Discord.Commands.IResult, System.Threading.Tasks.Task>;
 
 namespace HelpfulUtilities.Discord.Commands
 {
@@ -21,16 +21,16 @@ namespace HelpfulUtilities.Discord.Commands
         public string Prefix { get; set; } = null;
 
         /// <summary>The service provider</summary>
-        public IServiceProvider Services { get; set; } = null;
+        public IServiceProvider Services { get; set; }
 
         /// <summary>The command service</summary>
-        public CommandService Commands { get; set; } = null;
+        public CommandService Commands { get; set; }
 
         /// <summary>The listener types</summary>
         public IEnumerable<Type> Listeners { get; set; } = new List<Type>();
 
         /// <summary>The context creator</summary>
-        public ContextCreator ContextCreator { get; set; } = null;
+        public ContextCreator ContextCreator { get; set; }
 
         /// <summary>The user to mentions</summary>
         public IUser MentionUser { get; set; } = null;
@@ -38,8 +38,14 @@ namespace HelpfulUtilities.Discord.Commands
         /// <summary>The global preconditions</summary>
         public GlobalPreconditions GlobalPreconditions { get; set; } = new List<Func<ICommandContext, bool>>();
 
+        /// <summary>The global command preconditions</summary>
+        public GlobalPreconditions GlobalCommandPreconditions { get; set; } = new List<Func<ICommandContext, bool>>();
+
+        /// <summary>The global message preconditions</summary>
+        public GlobalPreconditions GlobalMessagePreconditions { get; set; } = new List<Func<ICommandContext, bool>>();
+
         /// <summary>A function that handles the result of command execution.</summary>
-        public Action<IResult> CommandResultHandler { get; set; } = result => { return; };
+        public CommandResultHandler CommandResultHandler { get; set; } = (user, result) => { return Task.CompletedTask; };
 
         /// <summary>Constructs an instance of <see cref="MessageHandler{TCommandContext}"/></summary>
         /// <remarks>Remember to set <see cref="Prefix"/>, <see cref="Services"/>, <see cref="Commands"/>, 
@@ -48,17 +54,20 @@ namespace HelpfulUtilities.Discord.Commands
 
         /// <summary>Constructs an instance of <see cref="MessageHandler{TCommandContext}"/></summary>
         public MessageHandler(string prefix, IServiceProvider services, CommandService commands, ContextCreator contextCreator,
-            IEnumerable<Type> listeners = null, IUser user = null, GlobalPreconditions globalPreconditions = null, Action<IResult> handler = null)
+            IEnumerable<Type> listeners = null, IUser user = null, GlobalPreconditions globalPreconditions = null,
+            GlobalPreconditions globalCommandPreconditions = null, GlobalPreconditions globalMessagePreconditions = null, CommandResultHandler handler = null)
         {
             Prefix = prefix;
             Services = services;
             Commands = commands;
             ContextCreator = contextCreator;
 
-            Listeners = listeners ?? new List<Type>();
+            Listeners = listeners ?? Listeners;
             MentionUser = user;
-            GlobalPreconditions = globalPreconditions ?? new List<Func<ICommandContext, bool>>();
-            CommandResultHandler = handler ?? ((result) => { return; });
+            GlobalPreconditions = globalPreconditions ?? GlobalPreconditions;
+            GlobalCommandPreconditions = globalCommandPreconditions ?? GlobalCommandPreconditions;
+            GlobalMessagePreconditions = globalMessagePreconditions ?? GlobalMessagePreconditions;
+            CommandResultHandler = handler ?? CommandResultHandler;
         }
 
         /// <summary>Sets the prefix and returns itself.</summary>
@@ -117,12 +126,26 @@ namespace HelpfulUtilities.Discord.Commands
             return this;
         }
 
+        /// <summary>Sets the global command preconditions and returns itself.</summary>
+        public MessageHandler<TCommandContext> WithGlobalCommandPreconditions(GlobalPreconditions globalCommandPreconditions)
+        {
+            GlobalCommandPreconditions = globalCommandPreconditions;
+            return this;
+        }
+
+        /// <summary>Sets the global message preconditions and returns itself.</summary>
+        public MessageHandler<TCommandContext> WithGlobalMessagePreconditions(GlobalPreconditions globalMessagePreconditions)
+        {
+            GlobalMessagePreconditions = globalMessagePreconditions;
+            return this;
+        }
+
         /// <summary>Sets the Command Result Handler and returns itself.</summary>
-        public MessageHandler<TCommandContext> WithHandler(Action<IResult> handler)
+        public MessageHandler<TCommandContext> WithHandler(CommandResultHandler handler)
             => WithCommandResultHandler(handler);
 
         /// <summary>Sets the Command Result Handler and returns itself.</summary>
-        public MessageHandler<TCommandContext> WithCommandResultHandler(Action<IResult> handler)
+        public MessageHandler<TCommandContext> WithCommandResultHandler(CommandResultHandler handler)
         {
             CommandResultHandler = handler;
             return this;
@@ -143,7 +166,7 @@ namespace HelpfulUtilities.Discord.Commands
         /// <remarks>Supports being hooked onto <see cref="BaseSocketClient.MessageReceived"/></remarks>
         public async Task MessageReceivedAsync(SocketMessage message)
         {
-            CommandResultHandler(await Handle(message));
+            await CommandResultHandler(message as IUserMessage, await Handle(message));
         }
 
         /// <summary>Handles command and non commands implementing <see cref="IListener{TCommandContext}"/></summary>
@@ -157,12 +180,12 @@ namespace HelpfulUtilities.Discord.Commands
                     new NullReferenceException("A critical component of the message handler was not set!")));
             }
             return Handle(message, Prefix, Services, Commands, 
-                ContextCreator, Listeners, MentionUser, GlobalPreconditions);
+                ContextCreator, Listeners, MentionUser, GlobalPreconditions, GlobalCommandPreconditions, GlobalMessagePreconditions);
         }
 
         /// <summary>Returns a collection of types extending <see cref="IListener{TCommandContext}"/>. For use in <see cref="Handle(IMessage, string,
         /// IServiceProvider, CommandService, ContextCreator, IEnumerable{Type},
-        /// IUser, GlobalPreconditions)"/></summary>
+        /// IUser, GlobalPreconditions, GlobalPreconditions, GlobalPreconditions)"/></summary>
         /// <param name="assembly">The assembly to search in - defaults to the calling assembly.</param>
         /// <returns>A collection of types that extend <see cref="IListener{TCommandContext}"/></returns>
         public static IEnumerable<Type> GetListeners(Assembly assembly = null)
@@ -182,10 +205,13 @@ namespace HelpfulUtilities.Discord.Commands
         /// <param name="listeners">The collection of <see cref="IListener{TCommandContext}"/> to use.</param>
         /// <param name="user">The optional user for enabling mention prefix</param>
         /// <param name="globalPreconditions">A collection of functions that take a command context and return a boolean for global preconditions.</param>
+        /// <param name="globalCommandPreconditions">A collection of functions that take a command context and return a boolean for global command preconditions.</param>
+        /// <param name="globalMessagePreconditions">A collection of functions that take a command context and return a boolean for global message preconditions.</param>
         /// <returns>The result of the handler.</returns>
         public static async Task<IResult> Handle(IMessage message, string prefix, IServiceProvider services,
             CommandService commands, ContextCreator createContextFunc, IEnumerable<Type> listeners,
-            IUser user = null, GlobalPreconditions globalPreconditions = null)
+            IUser user = null, GlobalPreconditions globalPreconditions = null, GlobalPreconditions globalCommandPreconditions = null,
+            GlobalPreconditions globalMessagePreconditions = null)
         {
             if (message is IUserMessage msg)
             {
@@ -205,11 +231,28 @@ namespace HelpfulUtilities.Discord.Commands
 
                 if (result)
                 {
+                    foreach (var func in globalCommandPreconditions)
+                    {
+                        if (!func(context))
+                        {
+                            return PreconditionResult.FromError("Global command preconditions failed.");
+                        }
+                    }
+
                     return await commands.ExecuteAsync(context, pos, services);
                 }
                 else
                 {
                     if (listeners == null) { return ExecuteResult.FromSuccess(); }
+
+                    foreach (var func in globalMessagePreconditions)
+                    {
+                        if (!func(context))
+                        {
+                            return PreconditionResult.FromError("Global message preconditions failed.");
+                        }
+                    }
+
                     foreach (var type in listeners)
                     {
                         var listener = DependencyInjection.CreateInjected<IListener<TCommandContext>>(type, services, context);
