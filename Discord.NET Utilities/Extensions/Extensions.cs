@@ -1,4 +1,4 @@
-﻿namespace HelpfulUtilities.Extensions
+﻿namespace HelpfulUtilities.Discord.Extensions
 {
     /// <summary>
     /// This class provides a host of extension methods pertaining to Discord.NET (WebSocket and Rest)

@@ -1,15 +1,15 @@
 ﻿using Discord;
+using HelpfulUtilities.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HelpfulUtilities.Extensions
+namespace HelpfulUtilities.Discord.Extensions
 {
     public static partial class Extensions
     {
-        /// <summary>Deletes the message in <paramref name="millis"/> milliseconds.</summary>
-        /// <param name="millis">How long to wait before deletion in milliseconds.</param>
+        /// <summary>Deletes the message in the specified number of milliseconds.</summary>
         public static async Task DeleteInAsync(this IMessage message, ulong millis, RequestOptions options = null)
         {
             await Operations.DelayAsync(millis);

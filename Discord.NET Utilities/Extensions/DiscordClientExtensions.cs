@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 
-namespace HelpfulUtilities.Extensions
+namespace HelpfulUtilities.Discord.Extensions
 {
     public static partial class Extensions
     {

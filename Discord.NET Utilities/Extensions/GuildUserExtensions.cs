@@ -1,7 +1,7 @@
 ﻿using Discord;
 using System.Linq;
 
-namespace HelpfulUtilities.Extensions
+namespace HelpfulUtilities.Discord.Extensions
 {
     public static partial class Extensions
     {

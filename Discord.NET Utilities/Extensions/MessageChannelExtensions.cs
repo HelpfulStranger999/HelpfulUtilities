@@ -1,12 +1,11 @@
 ﻿using Discord;
 using System.Threading.Tasks;
 
-namespace HelpfulUtilities.Extensions
+namespace HelpfulUtilities.Discord.Extensions
 {
     public static partial class Extensions
     {
-        /// <summary>Sends a message to this message channel and deletes it after a specified duration</summary>
-        /// <param name="millis">How long to wait before deletion in milliseconds.</param>
+        /// <summary>Sends a message to this message channel and deletes it after a specified duration in milliseconds.</summary>
         public static async Task SendDeleteMessageAsync(this IMessageChannel channel, ulong millis, string text = "", bool isTTS = false, Embed embed = null, RequestOptions options = null)
         {
             var message = await channel.SendMessageAsync(text, isTTS, embed, options);

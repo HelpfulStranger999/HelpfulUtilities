@@ -1,7 +1,7 @@
 ﻿using Discord.Commands;
 using System.Threading.Tasks;
 
-namespace Discord.NET.Commands_Utilities
+namespace HelpfulUtilities.Discord.Commands
 {
     /// <summary>A Listener interface to implement to handle non messages.</summary>
     public interface IListener<TCommandContext>
