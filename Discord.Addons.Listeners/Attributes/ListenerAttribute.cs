@@ -1,21 +1,27 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Discord.Addons.Listeners
 {
+    /// <summary>Marks a method as a listener, enabling <see cref="ListenerService"/> to find it</summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class ListenerAttribute : Attribute
     {
+        /// <summary>Sets the RunMode of this listener, defaults to <see cref="ListenerServiceConfig.RunMode"/></summary>
         public RunMode RunMode { get; set; } = RunMode.Default;
+
+        /// <summary>The required <see cref="ContextType"/>, optionally ORd together</summary>
         public ContextType? RequiredContexts { get; set; } = null;
+
+        /// <summary>The required users</summary>
         public ulong[] RequiredUsers { get; set; } = null;
 
+        /// <summary>Instantiates the attribute with a list of users</summary>
+        /// <param name="users">Optional array of users</param>
         public ListenerAttribute(params ulong[] users) => RequiredUsers = users;
 
-        public PreconditionResult HasRequiredContext(ICommandContext context)
+        internal PreconditionResult HasRequiredContext(ICommandContext context)
         {
             if (!RequiredContexts.HasValue)
                 return PreconditionResult.FromSuccess();
@@ -35,7 +41,7 @@ namespace Discord.Addons.Listeners
                 return PreconditionResult.FromError($"Invalid context for command; accepted contexts: {RequiredContexts}");
         }
 
-        public PreconditionResult IsFromRequiredUser(ICommandContext context)
+        internal PreconditionResult IsFromRequiredUser(ICommandContext context)
         {
             if (RequiredUsers == null)
                 return PreconditionResult.FromSuccess();

@@ -9,21 +9,26 @@ using System.Threading.Tasks;
 
 namespace Discord.Addons.Listeners
 {
+    /// <summary>Offers a service that streamlines non-command message handling to complement <see cref="CommandService"/></summary>
     public class ListenerService
     {
+        /// <summary>An immutable collection of listeners</summary>
         public IReadOnlyCollection<ListenerInfo> Listeners => _listeners.ToImmutableList();
         private IList<ListenerInfo> _listeners = new List<ListenerInfo>();
 
-        internal RunMode _runMode = RunMode.Sync;
-        internal LogSeverity _logLevel = LogSeverity.Info;
+        /// <summary>Subscribe to this event and receive logs.</summary>
         public event Func<LogMessage, Task> Log;
 
+        internal RunMode _runMode = RunMode.Sync;
+        internal LogSeverity _logLevel = LogSeverity.Info;
         internal Func<IUserMessage, ICommandContext> _context;
         internal Func<ICommandContext, IServiceProvider> _services;
 
-        public ListenerService() : this(new ListenerServiceConfig()) { }
-        public ListenerService(ListenerServiceConfig config)
+        /// <summary>Instantiates a <see cref="ListenerService"/> with an optional config</summary>
+        public ListenerService(ListenerServiceConfig config = null)
         {
+            config = config ?? new ListenerServiceConfig();
+
             _runMode = config.RunMode;
             _logLevel = config.LogLevel;
 
@@ -33,8 +38,16 @@ namespace Discord.Addons.Listeners
             VerboseAsync($"{nameof(ListenerService)} initialized");
         }
 
+        /// <summary>Adds listeners found in specified types.</summary>
+        /// <returns>An enumerable of created listeners.</returns>
         public IEnumerable<ListenerInfo> AddModules(params Type[] types) => AddModules(types);
+
+        /// <summary>Adds listeners found in specified types.</summary>
+        /// <returns>An enumerable of created listeners.</returns>
         public IEnumerable<ListenerInfo> AddModules(IEnumerable<Type> types) => types.Select(x => AddModule(x)).Flatten();
+
+        /// <summary>Adds listeners found in optional specified assembly</summary>
+        /// <returns>An enumerable of created listeners.</returns>
         public IEnumerable<ListenerInfo> AddModules(Assembly assembly = null)
         {
             assembly = assembly ?? Assembly.GetCallingAssembly();
@@ -42,7 +55,12 @@ namespace Discord.Addons.Listeners
             return AddModules(assembly.GetTypes().Where(type => type.Extends(typeof(ModuleBase))));
         }
 
+        /// <summary>Adds listeners found in <typeparamref name="T"/></summary>
+        /// <returns>An enumerable of created listeners.</returns>
         public IEnumerable<ListenerInfo> AddModule<T>() => AddModule(typeof(T));
+
+        /// <summary>Adds listeners found in specified type.</summary>
+        /// <returns>An enumerable of created listeners.</returns>
         public IEnumerable<ListenerInfo> AddModule(Type type)
         {
             DebugAsync($"Searching for listeners in {type.Name}");
@@ -54,8 +72,13 @@ namespace Discord.Addons.Listeners
             return list;
         }
 
-        
+
+        /// <summary>Removes specified listeners.</summary>
+        /// <returns>Whether remove operation was successful</returns>
         public bool RemoveModules(params ListenerInfo[] listeners) => RemoveModules(listeners);
+
+        /// <summary>Removes specified listeners.</summary>
+        /// <returns>Whether remove operation was successful</returns>
         public bool RemoveModules(IEnumerable<ListenerInfo> listeners)
         {
             VerboseAsync($"Preparing to remove {listeners.Count()} listeners");
@@ -68,6 +91,8 @@ namespace Discord.Addons.Listeners
             return true;
         }
 
+        /// <summary>Removes specified listener.</summary>
+        /// <returns>Whether remove operation was successful</returns>
         public bool RemoveModule(ListenerInfo listener)
         {
             VerboseAsync($"Preparing to remove {listener.Name}");
@@ -79,6 +104,10 @@ namespace Discord.Addons.Listeners
             return result;
         }
 
+        /// <summary>Executes the listeners with the provided context and service provider.</summary>
+        /// <param name="context">The context of the message</param>
+        /// <param name="services">The service provider to inject dependencies from.</param>
+        /// <returns>An enumerable of the results of the listeners.</returns>
         public async Task<IEnumerable<IResult>> ExecuteAsync(ICommandContext context, IServiceProvider services)
         {
             await VerboseAsync("Preparing to execute");
@@ -101,6 +130,9 @@ namespace Discord.Addons.Listeners
             }));
         }
 
+        /// <summary>Offers a default message handler you can subscribe to the message received handler.</summary>
+        /// <remarks>Remember to set <see cref="ListenerServiceConfig.ContextFactory"/> and either 
+        /// <see cref="ListenerServiceConfig.ServiceProvider"/> or <see cref="ListenerServiceConfig.ServiceProviderFactory"/></remarks>
         public async Task ListenerAsync(IMessage msg)
         {
             if (msg is IUserMessage message)
