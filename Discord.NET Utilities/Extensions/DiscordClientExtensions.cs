@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.WebSocket;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
@@ -15,8 +16,10 @@ namespace HelpfulUtilities.Discord.Extensions
 
             foreach (var guild in await client.GetGuildsAsync(mode, options))
             {
-                if(mode == CacheMode.AllowDownload) { await guild.DownloadUsersAsync(); }
-                builder.AddRange(await guild.GetUsersAsync(mode, options));
+                if (mode == CacheMode.AllowDownload && guild is SocketGuild socketGuild)
+                    builder.AddRange(await socketGuild.FetchUsersAsync(mode, options));
+                else
+                    builder.AddRange(await guild.GetUsersAsync(mode, options));
             }
 
             return builder.ToImmutable();
