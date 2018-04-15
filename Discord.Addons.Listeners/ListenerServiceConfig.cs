@@ -1,7 +1,7 @@
 ﻿using Discord.Commands;
 using System;
 
-namespace Discord.Addons.Listeners
+namespace HelpfulUtilities.Discord.Listeners
 {
     /// <summary>Represents configuration settings for <see cref="ListenerService"/></summary>
     public class ListenerServiceConfig

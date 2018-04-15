@@ -5,7 +5,7 @@ using System.Reflection;
 using Discord.Commands;
 using System.Collections.Generic;
 
-namespace Discord.Addons.Listeners
+namespace HelpfulUtilities.Discord.Listeners
 {
     /// <summary>Handles creation and injection of dependencies</summary>
     public class DependencyManager

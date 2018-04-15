@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Discord.Addons.Listeners
+namespace HelpfulUtilities.Discord.Listeners
 {
     /// <summary>Marks a method as a listener, enabling <see cref="ListenerService"/> to find it</summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]

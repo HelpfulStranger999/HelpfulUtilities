@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Discord.Addons.Listeners
+namespace HelpfulUtilities.Discord.Listeners
 {
     /// <summary>Offers a service that streamlines non-command message handling to complement <see cref="CommandService"/></summary>
     public class ListenerService

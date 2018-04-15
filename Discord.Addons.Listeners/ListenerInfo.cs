@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Immutable;
 
-namespace Discord.Addons.Listeners
+namespace HelpfulUtilities.Discord.Listeners
 {
     /// <summary>Provides info and execution info of this listener.</summary>
     public class ListenerInfo
