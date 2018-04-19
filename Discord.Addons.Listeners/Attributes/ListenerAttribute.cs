@@ -13,7 +13,7 @@ namespace HelpfulUtilities.Discord.Listeners
         public RunMode RunMode { get; set; } = RunMode.Default;
 
         /// <summary>The required <see cref="ContextType"/>, optionally ORd together</summary>
-        public ContextType? RequiredContexts { get; set; } = null;
+        public ContextType RequiredContexts { get; set; } = ContextType.Guild | ContextType.DM | ContextType.Group;
 
         /// <summary>The required users</summary>
         public ulong[] RequiredUsers { get; set; } = null;
@@ -24,9 +24,6 @@ namespace HelpfulUtilities.Discord.Listeners
 
         internal PreconditionResult HasRequiredContext(ICommandContext context)
         {
-            if (!RequiredContexts.HasValue)
-                return PreconditionResult.FromSuccess();
-
             bool isValid = false;
 
             if ((RequiredContexts & ContextType.Guild) != 0)
