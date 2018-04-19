@@ -1,8 +1,3 @@
-using System;
-using System.Threading.Tasks;
-using Discord.Commands;
-using Discord;
-
 namespace HelpfulUtilities.Discord.Commands.Readers
 {
     /// <summary>This <see cref="TypeReader"/> parses <see cref="Emote"/>.</summary>

@@ -1,13 +1,3 @@
-using System;
-using System.Threading.Tasks;
-using Discord.Commands;
-using System.Collections.Immutable;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using Discord;
-
 namespace HelpfulUtilities.Discord.Commands.Readers
 {
     /// <summary>This <see cref="TypeReader"/> parses emoji.</summary>
