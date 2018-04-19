@@ -1,4 +1,11 @@
-﻿namespace HelpfulUtilities.Discord.Commands.Readers
+﻿using Discord.Commands;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace HelpfulUtilities.Discord.Commands.Readers
 {
     /// <summary>This <see cref="TypeReader"/> parses <see cref="TimeSpan"/>.</summary>
     public class TimeSpanTypeReader : TypeReader

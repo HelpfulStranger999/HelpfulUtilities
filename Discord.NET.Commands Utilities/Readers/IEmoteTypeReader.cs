@@ -1,3 +1,8 @@
+using Discord;
+using Discord.Commands;
+using System;
+using System.Threading.Tasks;
+
 namespace HelpfulUtilities.Discord.Commands.Readers
 {
     /// <summary>This <see cref="TypeReader"/> parses <see cref="IEmote"/>.</summary>

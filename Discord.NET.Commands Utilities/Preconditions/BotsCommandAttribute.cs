@@ -1,4 +1,7 @@
-﻿using HelpfulUtilities.Discord.Commands.Extensions;
+﻿using Discord.Commands;
+using HelpfulUtilities.Discord.Commands.Extensions;
+using System;
+using System.Threading.Tasks;
 
 namespace HelpfulUtilities.Discord.Commands.Preconditions
 {

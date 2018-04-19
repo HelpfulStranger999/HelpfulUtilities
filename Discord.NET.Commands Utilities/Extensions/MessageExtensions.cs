@@ -1,4 +1,8 @@
-﻿namespace HelpfulUtilities.Discord.Commands.Extensions
+﻿using Discord;
+using Discord.Rest;
+using HelpfulUtilities.Extensions;
+
+namespace HelpfulUtilities.Discord.Commands.Extensions
 {
     public static partial class Extensions
     {

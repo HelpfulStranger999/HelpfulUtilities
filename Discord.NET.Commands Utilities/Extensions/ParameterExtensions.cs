@@ -1,4 +1,10 @@
-﻿using HelpfulUtilities.Discord.Commands.Attributes;
+﻿using Discord;
+using Discord.Commands;
+using HelpfulUtilities.Discord.Commands.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 
 namespace HelpfulUtilities.Discord.Commands.Extensions
 {
