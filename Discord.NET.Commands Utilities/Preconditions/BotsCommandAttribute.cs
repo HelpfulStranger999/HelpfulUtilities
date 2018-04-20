@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace HelpfulUtilities.Discord.Commands.Preconditions
 {
     /// <summary>Checks whether a bot can perform the command.</summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Module | AttributeTargets.Parameter,
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Parameter,
         AllowMultiple = false, Inherited = true)]
     public class BotsCommandAttribute : PreconditionAttribute
     {
