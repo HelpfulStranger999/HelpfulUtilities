@@ -1,11 +1,10 @@
 using Discord;
 using Discord.Commands;
+using HelpfulUtilities.Discord.Commands.Properties;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace HelpfulUtilities.Discord.Commands.Readers
@@ -18,8 +17,7 @@ namespace HelpfulUtilities.Discord.Commands.Readers
 
         static EmojiTypeReader()
         {
-            var file = Path.Combine(Assembly.GetAssembly(typeof(EmojiTypeReader)).Location, @"Readers/emoji.json");
-            var emojis = JsonConvert.DeserializeObject<EmojiLoader>(File.ReadAllText(file));
+            var emojis = JsonConvert.DeserializeObject<EmojiLoader>(Resources.Emoji);
             EmojiSet = emojis.Generate();
         }
 
