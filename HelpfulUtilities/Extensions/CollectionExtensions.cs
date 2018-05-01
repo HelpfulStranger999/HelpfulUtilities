@@ -14,7 +14,7 @@ namespace HelpfulUtilities.Extensions
         /// <param name="elements">A sequence of elements to add to the <paramref name="source"/>.</param>
         /// <exception cref="NotSupportedException">Throws when <paramref name="source"/> is read-only.</exception>
         public static void AddRange<T>(this ICollection<T> source, params T[] elements)
-            => source.AddRange(elements);
+            => source.AddRange((IEnumerable<T>)elements);
 
         /// <summary>
         /// Adds a set of items to the ICollection<typeparamref name="T"/>
