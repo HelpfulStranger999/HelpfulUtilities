@@ -41,7 +41,7 @@ namespace HelpfulUtilities.Discord.Listeners
 
         internal PreconditionResult IsFromRequiredUser(ICommandContext context)
         {
-            if (RequiredUsers == null)
+            if (RequiredUsers == null || RequiredUsers.LongLength <= 0)
                 return PreconditionResult.FromSuccess();
 
             if (RequiredUsers.Contains(context.User.Id))

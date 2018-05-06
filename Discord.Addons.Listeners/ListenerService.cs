@@ -13,6 +13,8 @@ namespace HelpfulUtilities.Discord.Listeners
     /// <summary>Offers a service that streamlines non-command message handling to complement <see cref="CommandService"/></summary>
     public class ListenerService
     {
+        private const string DefaultSource = "Listeners";
+
         /// <summary>An immutable collection of listeners</summary>
         public IReadOnlyCollection<ListenerInfo> Listeners => _listeners.ToImmutableList();
         private IList<ListenerInfo> _listeners = new List<ListenerInfo>();
@@ -154,22 +156,22 @@ namespace HelpfulUtilities.Discord.Listeners
                 await Log(new LogMessage(severity, source, message, exception));
         }
 
-        internal Task CriticalAsync(string message, string source = null, Exception exception = null)
+        internal Task CriticalAsync(string message, string source = DefaultSource, Exception exception = null)
             => LogInternalAsync(LogSeverity.Critical, message, source, exception);
 
-        internal Task ErrorAsync(string message, string source = null, Exception exception = null)
+        internal Task ErrorAsync(string message, string source = DefaultSource, Exception exception = null)
             => LogInternalAsync(LogSeverity.Error, message, source, exception);
 
-        internal Task WarnAsync(string message, string source = null, Exception exception = null)
+        internal Task WarnAsync(string message, string source = DefaultSource, Exception exception = null)
             => LogInternalAsync(LogSeverity.Warning, message, source, exception);
 
-        internal Task LogAsync(string message, string source = null, Exception exception = null)
+        internal Task LogAsync(string message, string source = DefaultSource, Exception exception = null)
             => LogInternalAsync(LogSeverity.Info, message, source, exception);
 
-        internal Task VerboseAsync(string message, string source = null, Exception exception = null)
+        internal Task VerboseAsync(string message, string source = DefaultSource, Exception exception = null)
             => LogInternalAsync(LogSeverity.Verbose, message, source, exception);
 
-        internal Task DebugAsync(string message, string source = null, Exception exception = null)
+        internal Task DebugAsync(string message, string source = DefaultSource, Exception exception = null)
             => LogInternalAsync(LogSeverity.Debug, message, source, exception);
 
     }
