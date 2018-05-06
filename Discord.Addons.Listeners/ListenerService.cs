@@ -123,7 +123,7 @@ namespace HelpfulUtilities.Discord.Listeners
                     return result;
                 }
 
-                result = await x.ExecuteAsync(context, services);
+                result = x.Execute(context, services);
                 if (result.IsSuccess)
                     await VerboseAsync($"Executed {x.Name}");
                 else

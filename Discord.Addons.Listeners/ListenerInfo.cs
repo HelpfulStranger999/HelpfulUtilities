@@ -65,12 +65,10 @@ namespace HelpfulUtilities.Discord.Listeners
             return PreconditionResult.FromSuccess();
         }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         /// <summary>Executes this listener</summary>
         /// <param name="context">The context of the listeners</param>
         /// <param name="services">The <see cref="IServiceProvider"/> to use to inject dependencies</param>
-        public async Task<IResult> ExecuteAsync(ICommandContext context, IServiceProvider services)
-#pragma warning restore CS1998 // Temp patch until refactor
+        public IResult Execute(ICommandContext context, IServiceProvider services)
         {
             var manager = DependencyManager.Factory.SetDependencies(context)
                 .WithServiceProvider(services)

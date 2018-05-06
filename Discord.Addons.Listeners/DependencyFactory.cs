@@ -153,12 +153,12 @@ namespace HelpfulUtilities.Discord.Listeners
 
             /// <summary>Sets the dependencies</summary>
             public DependencyFactory SetDependencies(params object[] dependencies)
-                => SetDependencies(dependencies);
+                => SetDependencies((ICollection<object>)dependencies);
 
             /// <summary>Sets the dependencies</summary>
-            public DependencyFactory SetDependencies(ICollection<object> dependencies)
+            public DependencyFactory SetDependencies(IEnumerable<object> dependencies)
             {
-                Dependencies = dependencies;
+                Dependencies = dependencies is ICollection<object> col ? col : dependencies.ToList();
                 return this;
             }
 
@@ -193,7 +193,7 @@ namespace HelpfulUtilities.Discord.Listeners
             /// <summary>Builds a <see cref="DependencyManager"/></summary>
             public DependencyManager Build()
             {
-                if (_manager == null) _manager = new DependencyManager(this);
+                if (_manager == null) return (_manager = new DependencyManager(this));
 
                 if (_manager._type != Type ||
                     _manager._services != ServiceProvider ||
