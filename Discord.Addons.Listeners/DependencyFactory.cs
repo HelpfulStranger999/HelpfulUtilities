@@ -37,14 +37,14 @@ namespace HelpfulUtilities.Discord.Listeners
         }
 
         /// <summary>Initializes an object of type <typeparamref name="T"/></summary>
-        public T CreateObject<T>()
-            => (T)CreateObject();
+        public T CreateObject<T>(bool ignoreUnsettableProperties = true)
+            => (T)CreateObject(ignoreUnsettableProperties);
 
         /// <summary>Initializes an object</summary>
-        public object CreateObject()
+        public object CreateObject(bool ignoreUnsettableProperties = true)
         {
             var obj = ChooseConstructor();
-            Inject(obj);
+            Inject(obj, ignoreUnsettableProperties);
             return obj;
         }
 
@@ -88,11 +88,12 @@ namespace HelpfulUtilities.Discord.Listeners
         }
 
         /// <summary>Injects dependencies into the properties of the specified object</summary>
-        public void Inject(object obj)
+        public void Inject(object obj, bool ignoreUnsettableProperties = true)
         {
             var properties = obj.GetType().GetProperties().Where(property =>
             {
-                return property.GetCustomAttribute<DontInjectAttribute>() == null && property.GetSetMethod() != null;
+                if (property.GetSetMethod() == null && !ignoreUnsettableProperties) return false;
+                return property.GetCustomAttribute<DontInjectAttribute>() == null;
             });
 
             foreach (var property in properties)
