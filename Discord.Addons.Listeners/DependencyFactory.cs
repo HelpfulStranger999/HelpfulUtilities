@@ -92,7 +92,7 @@ namespace HelpfulUtilities.Discord.Listeners
         {
             var properties = obj.GetType().GetProperties().Where(property =>
             {
-                return property.GetCustomAttribute<DontInjectAttribute>() == null;
+                return property.GetCustomAttribute<DontInjectAttribute>() == null && property.GetSetMethod() != null;
             });
 
             foreach (var property in properties)
