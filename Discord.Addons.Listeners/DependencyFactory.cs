@@ -92,7 +92,10 @@ namespace HelpfulUtilities.Discord.Listeners
         {
             var properties = obj.GetType().GetProperties().Where(property =>
             {
-                if (property.GetSetMethod() == null && !ignoreUnsettableProperties) return false;
+                if (property.GetSetMethod() == null && !ignoreUnsettableProperties)
+                {
+                    return true; // So an error is thrown when it is reached.
+                }
                 return property.GetCustomAttribute<DontInjectAttribute>() == null;
             });
 
