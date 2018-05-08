@@ -24,6 +24,21 @@ namespace HelpfulUtilities.Discord.Listeners
             _type = factory.Type;
         }
 
+        /// <summary>Injects <paramref name="value"/> into the private property with the name of <paramref name="propertyName"/></summary>
+        public T InjectPrivateProperty<T>(T obj, object value, string propertyName, Type type = null)
+            => (T)InjectPrivateProperty((object)obj, value, propertyName, type);
+
+        /// <summary>Injects <paramref name="value"/> into the private property with the name of <paramref name="propertyName"/></summary>
+        public object InjectPrivateProperty(object obj, object value, string propertyName, Type type = null)
+        {
+            type = type ?? obj.GetType();
+
+            var field = type.GetField($"<{propertyName}>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
+            field.SetValue(obj, value);
+
+            return obj;
+        }
+
         /// <summary>Invokes a specified method on a given object of type <typeparamref name="T"/></summary>
         public T InvokeMethod<T>(T obj, MethodInfo method)
             => (T)InvokeMethod((object)obj, method);

@@ -76,6 +76,10 @@ namespace HelpfulUtilities.Discord.Listeners
                 .Build();
 
             var listener = manager.CreateObject();
+            if (listener is ModuleBase<ICommandContext> module)
+            {
+                listener = manager.InjectPrivateProperty(listener, context, nameof(module.Context), module.GetType());
+            }
 
             switch (RunMode)
             {
