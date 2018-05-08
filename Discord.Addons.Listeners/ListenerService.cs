@@ -111,7 +111,9 @@ namespace HelpfulUtilities.Discord.Listeners
         /// <param name="context">The context of the message</param>
         /// <param name="services">The service provider to inject dependencies from.</param>
         /// <returns>An enumerable of the results of the listeners.</returns>
-        public async Task<IEnumerable<IResult>> ExecuteAsync(ICommandContext context, IServiceProvider services)
+        public async Task<IEnumerable<IResult>> ExecuteAsync<TCommandContext>(TCommandContext context, IServiceProvider services)
+            where TCommandContext : class, ICommandContext
+
         {
             await VerboseAsync("Preparing to execute");
             return await Task.WhenAll(_listeners.Select(async x =>

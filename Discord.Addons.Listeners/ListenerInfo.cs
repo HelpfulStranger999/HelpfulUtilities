@@ -68,7 +68,8 @@ namespace HelpfulUtilities.Discord.Listeners
         /// <summary>Executes this listener</summary>
         /// <param name="context">The context of the listeners</param>
         /// <param name="services">The <see cref="IServiceProvider"/> to use to inject dependencies</param>
-        public IResult Execute(ICommandContext context, IServiceProvider services)
+        public IResult Execute<TCommandContext>(TCommandContext context, IServiceProvider services)
+            where TCommandContext : class, ICommandContext
         {
             var manager = DependencyManager.Factory.SetDependencies(context)
                 .WithServiceProvider(services)
@@ -76,9 +77,10 @@ namespace HelpfulUtilities.Discord.Listeners
                 .Build();
 
             var listener = manager.CreateObject();
-            if (listener is ModuleBase<ICommandContext> module)
+            if (listener is ModuleBase<TCommandContext> module)
             {
-                listener = manager.InjectPrivateProperty(listener, context, nameof(module.Context), module.GetType());
+                listener = manager.InjectPrivateProperty(listener, context,
+                    nameof(module.Context), module.GetType());
             }
 
             switch (RunMode)
