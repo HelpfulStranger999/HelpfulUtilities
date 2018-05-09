@@ -14,6 +14,7 @@ namespace HelpfulUtilities.Discord.Listeners
     public class ListenerService
     {
         private const string DefaultSource = "Listeners";
+        internal static Type IModuleBase = Assembly.GetAssembly(typeof(CommandService)).GetType("IModuleBase");
 
         /// <summary>An immutable collection of listeners</summary>
         public IReadOnlyCollection<ListenerInfo> Listeners => _listeners.ToImmutableList();
@@ -55,9 +56,7 @@ namespace HelpfulUtilities.Discord.Listeners
         {
             assembly = assembly ?? Assembly.GetCallingAssembly();
             VerboseAsync($"Searching for listeners in {assembly.FullName} assembly.");
-
-            var genericType = typeof(ModuleBase<>);
-            return AddModules(assembly.GetTypes().Where(type => type.IsAssignableToGenericType(genericType)));
+            return AddModules(assembly.GetTypes().Where(IModuleBase.Extends));
         }
 
         /// <summary>Adds listeners found in <typeparamref name="T"/></summary>
