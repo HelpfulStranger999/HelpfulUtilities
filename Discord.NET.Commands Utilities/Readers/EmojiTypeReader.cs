@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HelpfulUtilities.Discord.Commands.Readers
@@ -24,8 +25,8 @@ namespace HelpfulUtilities.Discord.Commands.Readers
         /// <summary>Parses the emoji</summary>
         public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
-            if (EmojiSet.TryGetValue(input.Trim().Replace(":", ""), out string emoji))
-                return Task.FromResult(TypeReaderResult.FromSuccess(new Emoji(emoji)));
+            if (EmojiSet.Values.Contains(input.Trim()))
+                return Task.FromResult(TypeReaderResult.FromSuccess(new Emoji(input)));
             return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "Input was not an emoji"));
         }
     }
