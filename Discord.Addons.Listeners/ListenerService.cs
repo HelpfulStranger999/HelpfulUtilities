@@ -14,7 +14,7 @@ namespace HelpfulUtilities.Discord.Listeners
     public class ListenerService
     {
         private const string DefaultSource = "Listeners";
-        internal static Type IModuleBase = Assembly.GetAssembly(typeof(CommandService)).GetType("IModuleBase");
+        internal static Type IModuleBase = Assembly.GetAssembly(typeof(CommandService)).GetType("Discord.Commands.IModuleBase", true);
 
         /// <summary>An immutable collection of listeners</summary>
         public IReadOnlyCollection<ListenerInfo> Listeners => _listeners.ToImmutableList();
