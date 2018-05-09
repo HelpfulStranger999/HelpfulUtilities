@@ -44,7 +44,7 @@ namespace HelpfulUtilities.Discord.Listeners
 
         /// <summary>Adds listeners found in specified types.</summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IEnumerable<ListenerInfo> AddModules(params Type[] types) => AddModules((IEnumerable<Type>) types);
+        public IEnumerable<ListenerInfo> AddModules(params Type[] types) => AddModules((IEnumerable<Type>)types);
 
         /// <summary>Adds listeners found in specified types.</summary>
         /// <returns>An enumerable of created listeners.</returns>

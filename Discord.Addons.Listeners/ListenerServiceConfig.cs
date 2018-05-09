@@ -21,7 +21,7 @@ namespace HelpfulUtilities.Discord.Listeners
                 _runMode = value;
             }
         }
-        
+
         /// <summary>Sets the severity of logs for <see cref="ListenerService.Log"/></summary>
         public LogSeverity LogLevel { get; set; }
 

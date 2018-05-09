@@ -157,7 +157,7 @@ namespace HelpfulUtilities.Discord.Listeners
 
             /// <summary>Miscellaneous dependencies not found in <see cref="IServiceProvider"/></summary>
             public ICollection<object> Dependencies { get; set; } = new List<object>();
-            
+
             /// <summary>The type to create, inject, and invoke.</summary>
             public Type Type { get; set; }
 
