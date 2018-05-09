@@ -16,6 +16,12 @@ namespace HelpfulUtilities.Discord.Listeners
         private const string DefaultSource = "Listeners";
         internal static Type IModuleBase = Assembly.GetAssembly(typeof(CommandService)).GetType("Discord.Commands.IModuleBase", true);
 
+        internal static Func<Type, bool> TypeFilter = ((type) =>
+        {
+            return (type.IsClass && !type.IsAbstract)
+                && type.Extends(IModuleBase);
+        });
+
         /// <summary>An immutable collection of listeners</summary>
         public IReadOnlyCollection<ListenerInfo> Listeners => _listeners.ToImmutableList();
         private IList<ListenerInfo> _listeners = new List<ListenerInfo>();
@@ -44,45 +50,53 @@ namespace HelpfulUtilities.Discord.Listeners
 
         /// <summary>Adds listeners found in specified types.</summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IEnumerable<ListenerInfo> AddModules(params Type[] types) => AddModules((IEnumerable<Type>)types);
+        public IReadOnlyCollection<ListenerInfo> AddModules(params Type[] types) => AddModules((IEnumerable<Type>)types);
 
         /// <summary>Adds listeners found in specified types.</summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IEnumerable<ListenerInfo> AddModules(IEnumerable<Type> types)
+        public IReadOnlyCollection<ListenerInfo> AddModules(IEnumerable<Type> types)
         {
+            var builder = ImmutableArray.CreateBuilder<ListenerInfo>();
+            
             foreach (var type in types)
             {
-                foreach (var listener in AddModule(type))
-                {
-                    yield return listener;
-                }
+                builder.AddRange(AddModule(type));
             }
+
+            return builder.ToImmutable();
         }
 
         /// <summary>Adds listeners found in optional specified assembly</summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IEnumerable<ListenerInfo> AddModules(Assembly assembly = null)
+        public IReadOnlyCollection<ListenerInfo> AddModules(Assembly assembly = null)
         {
             assembly = assembly ?? Assembly.GetCallingAssembly();
             VerboseAsync($"Searching for listeners in {assembly.FullName} assembly.");
-            return AddModules(assembly.GetTypes().Where(type => type.Extends(IModuleBase)));
+            return AddModules(assembly.GetTypes().Where(TypeFilter));
         }
 
         /// <summary>Adds listeners found in <typeparamref name="T"/></summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IEnumerable<ListenerInfo> AddModule<T>() => AddModule(typeof(T));
+        public IReadOnlyCollection<ListenerInfo> AddModule<T>() => AddModule(typeof(T));
 
         /// <summary>Adds listeners found in specified type.</summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IEnumerable<ListenerInfo> AddModule(Type type)
+        public IReadOnlyCollection<ListenerInfo> AddModule(Type type)
         {
+            var builder = ImmutableArray.CreateBuilder<ListenerInfo>();
+
             DebugAsync($"Searching for listeners in {type.Name}");
-            var list = type.GetMethods().Where(x => x.GetCustomAttribute<ListenerAttribute>() != null)
-                .Select(x => new ListenerInfo(this, x));
-            DebugAsync($"Found {list.Count()} listeners");
-            VerboseAsync($"Preparing to add {list.Count()} listeners");
-            _listeners.AddRange(list);
-            return list;
+
+            foreach (var method in type.GetMethods().Where(x => x.GetCustomAttribute<ListenerAttribute>() != null))
+            {
+                builder.Add(new ListenerInfo(this, method));
+            }
+
+            DebugAsync($"Found {builder.Count} listeners");
+            VerboseAsync($"Preparing to add {builder.Count} listeners");
+
+            _listeners.AddRange(builder);
+            return builder.ToImmutable();
         }
 
 
