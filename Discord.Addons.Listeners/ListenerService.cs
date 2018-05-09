@@ -44,11 +44,20 @@ namespace HelpfulUtilities.Discord.Listeners
 
         /// <summary>Adds listeners found in specified types.</summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IEnumerable<ListenerInfo> AddModules(params Type[] types) => AddModules(types);
+        public IEnumerable<ListenerInfo> AddModules(params Type[] types) => AddModules((IEnumerable<Type>) types);
 
         /// <summary>Adds listeners found in specified types.</summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IEnumerable<ListenerInfo> AddModules(IEnumerable<Type> types) => types.Select(x => AddModule(x)).Flatten();
+        public IEnumerable<ListenerInfo> AddModules(IEnumerable<Type> types)
+        {
+            foreach (var type in types)
+            {
+                foreach (var listener in AddModule(type))
+                {
+                    yield return listener;
+                }
+            }
+        }
 
         /// <summary>Adds listeners found in optional specified assembly</summary>
         /// <returns>An enumerable of created listeners.</returns>
@@ -56,7 +65,7 @@ namespace HelpfulUtilities.Discord.Listeners
         {
             assembly = assembly ?? Assembly.GetCallingAssembly();
             VerboseAsync($"Searching for listeners in {assembly.FullName} assembly.");
-            return AddModules(assembly.GetTypes().Where(IModuleBase.Extends));
+            return AddModules(assembly.GetTypes().Where(type => type.Extends(IModuleBase)));
         }
 
         /// <summary>Adds listeners found in <typeparamref name="T"/></summary>
