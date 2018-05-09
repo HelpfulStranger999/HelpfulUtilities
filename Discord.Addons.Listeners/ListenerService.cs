@@ -57,7 +57,7 @@ namespace HelpfulUtilities.Discord.Listeners
         public IReadOnlyCollection<ListenerInfo> AddModules(IEnumerable<Type> types)
         {
             var builder = ImmutableArray.CreateBuilder<ListenerInfo>();
-            
+
             foreach (var type in types)
             {
                 builder.AddRange(AddModule(type));
