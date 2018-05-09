@@ -55,7 +55,9 @@ namespace HelpfulUtilities.Discord.Listeners
         {
             assembly = assembly ?? Assembly.GetCallingAssembly();
             VerboseAsync($"Searching for listeners in {assembly.FullName} assembly.");
-            return AddModules(assembly.GetTypes().Where(type => type.Extends(typeof(ModuleBase))));
+
+            var genericType = typeof(ModuleBase<>);
+            return AddModules(assembly.GetTypes().Where(type => type.IsAssignableToGenericType(genericType)));
         }
 
         /// <summary>Adds listeners found in <typeparamref name="T"/></summary>
