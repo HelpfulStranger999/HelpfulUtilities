@@ -28,8 +28,4 @@
     <PackageReference Include="HelpfulUtilities" Version="1.0.6-alpha" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <DefineConstants Condition="Exists('Discord.Addons.EmojiTools.dll') ">$(DefineConstants);EMOJI</DefineConstants>
-  </PropertyGroup>
-
 </Project>
