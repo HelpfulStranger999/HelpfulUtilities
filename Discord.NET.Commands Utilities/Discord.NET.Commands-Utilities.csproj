@@ -32,13 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net.Commands" Version="2.0.0-beta2-00936" />
-    <PackageReference Include="HelpfulUtilities" Version="1.0.6-alpha" />
-    <PackageReference Include="HelpfulUtilities.Discord" Version="1.0.3" />
+    <PackageReference Include="Discord.Addons.EmojiTools" Version="2.0.2" />
+    <PackageReference Include="Discord.Net.Commands" Version="2.0.0-beta2-00937" />
+    <PackageReference Include="HelpfulUtilities" Version="1.1.1-alpha" />
+    <PackageReference Include="HelpfulUtilities.Discord" Version="1.0.4-beta" />
   </ItemGroup>
-
-  <PropertyGroup>
-    <DefineConstants Condition="Exists('Discord.Addons.EmojiTools.dll') ">$(DefineConstants);EMOJI</DefineConstants>
-  </PropertyGroup>
 
 </Project>

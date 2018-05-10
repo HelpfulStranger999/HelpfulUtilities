@@ -1,4 +1,3 @@
-#if EMOJI
 using Discord;
 using Discord.Addons.EmojiTools;
 using Discord.Commands;
@@ -22,4 +21,3 @@ namespace HelpfulUtilities.Discord.Commands.Readers
         }
     }
 }
-#endif
