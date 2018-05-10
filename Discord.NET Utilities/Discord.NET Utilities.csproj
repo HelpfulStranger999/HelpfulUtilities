@@ -11,10 +11,10 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>discord, discordapp</PackageTags>
     <RepositoryUrl>https://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET Utilities</RepositoryUrl>
-    <PackageReleaseNotes>- Added new extension methods for easily getting the guild of a message</PackageReleaseNotes>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
-    <FileVersion>1.0.3.0</FileVersion>
-    <Version>1.0.3</Version>
+    <PackageReleaseNotes>- Fixes Emoji#GetUrl Extension</PackageReleaseNotes>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
+    <Version>1.0.4-beta</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET Utilities</PackageProjectUrl>
   </PropertyGroup>
