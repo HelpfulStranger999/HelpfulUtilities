@@ -26,11 +26,10 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
         /// <typeparam name="TAttribute">Type of attribute</typeparam>
         /// <returns>All instances of the attribute</returns>
         public static IEnumerable<TAttribute> GetAttributes<TAttribute>(this ModuleInfo module)
+            where TAttribute : Attribute
         {
-            return (IEnumerable<TAttribute>)module.Attributes.Where(attribute =>
-            {
-                return attribute is TAttribute;
-            });
+            return module.Attributes.Where(attribute => attribute is TAttribute)
+                .Select(attribute => attribute as TAttribute);
         }
 
         /// <summary>Determines whether this module is hidden as determined by <see cref="HiddenAttribute"/></summary>
