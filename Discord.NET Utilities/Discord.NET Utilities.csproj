@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>HelpfulUtilities.Discord</RootNamespace>
+    <PackageId>HelpfulUtilities.Discord</PackageId>
+    <Authors>HelpfulStranger999</Authors>
+    <Company>HelpfulStranger999</Company>
+    <Description>This package expands upon Helpful Utilities to provide extensions for the Discord.NET library.</Description>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <RepositoryType>Github</RepositoryType>
+    <PackageTags>discord, discordapp</PackageTags>
+    <RepositoryUrl>https://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET Utilities</RepositoryUrl>
+    <PackageReleaseNotes>- Added new extension methods for easily getting the guild of a message</PackageReleaseNotes>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
+    <Version>1.0.3</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET Utilities</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.0\Discord.NET Utilities.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Discord.Net.WebSocket" Version="2.0.0-beta2-00936" />
+    <PackageReference Include="HelpfulUtilities" Version="1.0.6-alpha" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <DefineConstants Condition="Exists('Discord.Addons.EmojiTools.dll') ">$(DefineConstants);EMOJI</DefineConstants>
+  </PropertyGroup>
+
+</Project>
