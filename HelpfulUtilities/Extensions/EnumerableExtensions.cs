@@ -24,25 +24,6 @@ namespace HelpfulUtilities.Extensions
         }
 
         /// <summary>
-        /// Returns a sequence of <typeparamref name="TValue"/> generated with <paramref name="func"/>
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements in the sequence.</typeparam>
-        /// <typeparam name="TValue">The type of the property from the elements.</typeparam>
-        /// <param name="source">A sequence of elements</param>
-        /// <param name="func">A function to extract the property from the elements.</param>
-        /// <returns></returns>
-        public static IEnumerable<TValue> ToPropertyList<TSource, TValue>(this IEnumerable<TSource> source, Func<TSource, TValue> func)
-        {
-            ErrorTests.NullCheck(source, nameof(source));
-            ErrorTests.NullCheck(func, nameof(func));
-
-            foreach (var element in source)
-            {
-                yield return func(element);
-            }
-        }
-
-        /// <summary>
         /// Returns a sequences of <typeparamref name="TValue"/> from an <see cref="IEnumerable{TValue}"/> of <see cref="IEnumerable{TValue}"/>
         /// </summary>
         /// <typeparam name="TValue">The type of elements in the sequence.</typeparam>
