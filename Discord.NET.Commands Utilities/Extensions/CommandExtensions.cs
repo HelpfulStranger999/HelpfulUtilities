@@ -77,7 +77,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
         /// and a function for formatting the embed.</summary>
         /// <returns>The new embed with the provided help for the command</returns>
         public static EmbedBuilder GetHelp(this CommandInfo command, string invite = null, Func<EmbedBuilder, EmbedBuilder> formatter = null)
-            => command.AppendHelp(new EmbedBuilder(), invite);
+            => command.AppendHelp(new EmbedBuilder(), invite, formatter);
 
         /// <summary>Append to the embed a default command help with an optional invite to the support server
         /// and a function for formatting the embed.</summary>
@@ -90,7 +90,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
 
             if (invite != null)
             {
-                embed.Description += $" Join the [Support Server]{invite} for additional help.";
+                embed.Description += $" Join the [Support Server]({invite}) for additional help.";
             }
 
             foreach (var parameter in command.Parameters)

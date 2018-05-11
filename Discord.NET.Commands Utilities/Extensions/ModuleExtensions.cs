@@ -80,6 +80,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
                 }
             }
 
+            list.Add(embed);
             return list;
         }
 
@@ -94,7 +95,9 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
         /// <returns>The embed modified</returns>
         public static EmbedBuilder AppendHelp(this ModuleInfo module, EmbedBuilder embed, string prefix = "", Func<EmbedBuilder, EmbedBuilder> formatter = null)
         {
+            if (module.Commands.Count <= 0) throw new InvalidOperationException($"No commands could be found in {module.GetName()}");
             formatter = formatter ?? DefaultFormatter;
+
             var list = new StringBuilder();
             foreach (var command in module.Commands)
             {
