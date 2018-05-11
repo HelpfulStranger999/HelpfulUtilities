@@ -71,7 +71,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
 
             foreach (var module in modules)
             {
-                if(module.IsHidden()) { continue; }
+                if (module.IsHidden()) { continue; }
                 module.AppendHelp(embed, prefix, formatter);
                 if (embed.Fields.Count >= 24)
                 {

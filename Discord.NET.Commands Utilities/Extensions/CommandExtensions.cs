@@ -82,7 +82,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
 
             return builder.ToString();
         }
-        
+
         /// <summary>Returns a new embed builder with a default command help with an optional invite to the support server
         /// and a function for formatting the embed.</summary>
         /// <returns>The new embed with the provided help for the command</returns>
@@ -105,7 +105,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
 
             foreach (var parameter in command.Parameters)
             {
-                if(!parameter.IsHidden())
+                if (!parameter.IsHidden())
                     embed.AddField(parameter.GetHelp());
             }
 

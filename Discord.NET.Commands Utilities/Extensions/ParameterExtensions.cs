@@ -40,7 +40,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
         /// <returns>The name of this parameter</returns>
         public static string GetName(this ParameterInfo parameter)
         {
-            return parameter.GetAttribute<NameAttribute>()?.Text ?? 
+            return parameter.GetAttribute<NameAttribute>()?.Text ??
                 CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parameter.Name);
         }
 
