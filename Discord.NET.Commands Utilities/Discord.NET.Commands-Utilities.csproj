@@ -8,7 +8,10 @@
     <Authors>HelpfulStranger999</Authors>
     <Description>This package expands upon Helpful Utilities to provide extensions for the Discord.NET Commands library.</Description>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>- Fixes default brief help bug</PackageReleaseNotes>
+    <PackageReleaseNotes>- Fixes default brief help bug
+- New CommandInfo type reader
+- Optimization of type readers
+- Cleanup</PackageReleaseNotes>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageTags>discord, discordapp</PackageTags>
     <RepositoryUrl>git://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET.Commands Utilities</RepositoryUrl>
