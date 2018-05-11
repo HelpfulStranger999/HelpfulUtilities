@@ -8,16 +8,16 @@
     <Authors>HelpfulStranger999</Authors>
     <Description>This package expands upon Helpful Utilities to provide extensions for the Discord.NET Commands library.</Description>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>- Fixes Default Help bugs</PackageReleaseNotes>
+    <PackageReleaseNotes>- Fixes default brief help bug</PackageReleaseNotes>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageTags>discord, discordapp</PackageTags>
     <RepositoryUrl>git://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET.Commands Utilities</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.10-alpha</Version>
+    <Version>1.0.11-alpha</Version>
     <PackageProjectUrl>https://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET.Commands Utilities</PackageProjectUrl>
     <Product>HelpfulUtilities.Discord.Commands</Product>
-    <AssemblyVersion>1.0.10.0</AssemblyVersion>
-    <FileVersion>1.0.10.0</FileVersion>
+    <AssemblyVersion>1.0.11.0</AssemblyVersion>
+    <FileVersion>1.0.11.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

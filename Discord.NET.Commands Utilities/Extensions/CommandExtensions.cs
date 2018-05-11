@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using HelpfulUtilities.Discord.Commands.Attributes;
+using HelpfulUtilities.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,6 +12,15 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
 {
     public static partial class Extensions
     {
+
+        internal static Func<CommandInfo, IEnumerable<string>> AliasExcept = ((c) =>
+        {
+            return c.Aliases.Where(s =>
+            {
+                return !(s.IsNullOrWhitespace() || s.EqualsIgnoreCase(c.GetName()));
+            });
+        });
+
         /// <summary>Returns the attribute of the type on this command.</summary>
         /// <typeparam name="TAttribute">Type of attribute</typeparam>
         /// <returns>First instance of the attribute or null</returns>
@@ -65,7 +75,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
         {
             var builder = new StringBuilder($"`{prefix}{command.GetName()}` - {command.GetRemarks()}\n");
 
-            foreach (var alias in command.Aliases)
+            foreach (var alias in AliasExcept(command))
             {
                 builder.AppendLine($"`{prefix}{alias}` - {command.GetRemarks()}");
             }
