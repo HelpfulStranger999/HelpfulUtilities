@@ -10,6 +10,9 @@ namespace HelpfulUtilities.Discord.Commands.Readers
     {
         private EmojiTypeReader Emoji = new EmojiTypeReader();
 
+        /// <summary>Provides a default static error message</summary>
+        public static TypeReaderResult Error { get; } = TypeReaderResult.FromError(CommandError.ParseFailed, "IEmote could not be parsed from input.");
+
         /// <summary>Parses the <see cref="IEmote"/></summary>
         public async override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
@@ -19,7 +22,7 @@ namespace HelpfulUtilities.Discord.Commands.Readers
             if (Emote.TryParse(input, out var emote))
                 return TypeReaderResult.FromSuccess(emote);
 
-            return TypeReaderResult.FromError(CommandError.ParseFailed, "IEmote could not be parsed from input.");
+            return Error;
         }
 
     }

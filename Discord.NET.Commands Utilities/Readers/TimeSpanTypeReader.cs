@@ -59,6 +59,10 @@ namespace HelpfulUtilities.Discord.Commands.Readers
         }.ToImmutableDictionary();
 
 
+        /// <summary>Provides a default static error message</summary>
+        public static TypeReaderResult Error { get; } = TypeReaderResult.FromError(CommandError.ParseFailed, "Failed to parse timespan from input, or input was 0 milliseconds");
+
+
         /// <summary>Parses the <see cref="TimeSpan"/></summary>
         public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
@@ -77,14 +81,9 @@ namespace HelpfulUtilities.Discord.Commands.Readers
             if (millis == 0)
             {
                 if (TimeSpan.TryParse(input, out TimeSpan time))
-                {
                     result = TypeReaderResult.FromSuccess(time);
-                }
                 else
-                {
-                    result = TypeReaderResult.FromError(CommandError.ParseFailed, 
-                        $"Failed to parse timespan from input, or input was 0 milliseconds");
-                }
+                    result = Error;
             }
             else
             {

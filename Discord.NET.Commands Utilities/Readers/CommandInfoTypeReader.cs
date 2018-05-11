@@ -13,7 +13,7 @@ namespace HelpfulUtilities.Discord.Commands.Readers
     public class CommandInfoTypeReader : TypeReader
     {
         /// <summary>Provides a default static error message</summary>
-        public static TypeReaderResult Error = TypeReaderResult.FromError(CommandError.ObjectNotFound, "Could not find any commands matching the given input.");
+        public static TypeReaderResult Error { get; } = TypeReaderResult.FromError(CommandError.ObjectNotFound, "Could not find any commands matching the given input.");
 
         /// <summary>Parses the command</summary>
         public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
