@@ -8,19 +8,17 @@
     <Authors>HelpfulStranger999</Authors>
     <Description>This package expands upon Helpful Utilities to provide extensions for the Discord.NET Commands library.</Description>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>- Fixes default brief help bug
-- New CommandInfo type reader
-- Optimization of type readers
+    <PackageReleaseNotes>- Updates
 - Cleanup</PackageReleaseNotes>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageTags>discord, discordapp</PackageTags>
     <RepositoryUrl>git://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET.Commands Utilities</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.11-alpha</Version>
+    <Version>1.1.0-alpha</Version>
     <PackageProjectUrl>https://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET.Commands Utilities</PackageProjectUrl>
     <Product>HelpfulUtilities.Discord.Commands</Product>
-    <AssemblyVersion>1.0.11.0</AssemblyVersion>
-    <FileVersion>1.0.11.0</FileVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -36,9 +34,9 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Addons.EmojiTools" Version="2.0.2" />
-    <PackageReference Include="Discord.Net.Commands" Version="2.0.0-beta2-00937" />
-    <PackageReference Include="HelpfulUtilities" Version="1.1.1-alpha" />
-    <PackageReference Include="HelpfulUtilities.Discord" Version="1.0.4-beta" />
+    <PackageReference Include="Discord.Net.Commands" Version="2.0.0-beta2-00940" />
+    <PackageReference Include="HelpfulUtilities" Version="1.2.0-alpha" />
+    <PackageReference Include="HelpfulUtilities.Discord" Version="1.0.5-beta" />
   </ItemGroup>
 
 </Project>
