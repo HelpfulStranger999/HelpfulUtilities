@@ -37,7 +37,7 @@ namespace Unit_Tests
         }
 
         [TestMethod]
-        public void TestModuleFinder()
+        public async void TestModuleFinder()
         {
             try
             {
@@ -55,7 +55,7 @@ namespace Unit_Tests
 
                 }
                 var types = Assembly.GetAssembly(typeof(ListenerModuleOne)).GetTypes().Where(type => type.Extends(moduleBase)).ToList();
-                service.AddModules(Assembly.GetAssembly(typeof(ListenerModuleOne))).ToList();
+                await service.AddModulesAsync(Assembly.GetAssembly(typeof(ListenerModuleOne))).ToList();
                 Assert.IsTrue(service.Listeners.Count > 0);
             }
             catch (Exception e)

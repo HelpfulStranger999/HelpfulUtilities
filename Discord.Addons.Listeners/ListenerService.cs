@@ -45,22 +45,22 @@ namespace HelpfulUtilities.Discord.Listeners
             _context = config.ContextFactory;
             _services = config.ServiceProvider == null ? config.ServiceProviderFactory : _ => config.ServiceProvider;
 
-            VerboseAsync($"{nameof(ListenerService)} initialized");
+            VerboseAsync($"{nameof(ListenerService)} initialized").Await(false);
         }
 
         /// <summary>Adds listeners found in specified types.</summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IReadOnlyCollection<ListenerInfo> AddModules(params Type[] types) => AddModules((IEnumerable<Type>)types);
+        public Task<IReadOnlyCollection<ListenerInfo>> AddModulesAsync(params Type[] types) => AddModulesAsync((IEnumerable<Type>)types);
 
         /// <summary>Adds listeners found in specified types.</summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IReadOnlyCollection<ListenerInfo> AddModules(IEnumerable<Type> types)
+        public async Task<IReadOnlyCollection<ListenerInfo>> AddModulesAsync(IEnumerable<Type> types)
         {
             var builder = ImmutableArray.CreateBuilder<ListenerInfo>();
 
             foreach (var type in types)
             {
-                builder.AddRange(AddModule(type));
+                builder.AddRange(await AddModuleAsync(type).ConfigureAwait(false));
             }
 
             return builder.ToImmutable();
@@ -68,32 +68,32 @@ namespace HelpfulUtilities.Discord.Listeners
 
         /// <summary>Adds listeners found in optional specified assembly</summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IReadOnlyCollection<ListenerInfo> AddModules(Assembly assembly = null)
+        public async Task<IReadOnlyCollection<ListenerInfo>> AddModulesAsync(Assembly assembly = null)
         {
             assembly = assembly ?? Assembly.GetCallingAssembly();
-            VerboseAsync($"Searching for listeners in {assembly.FullName} assembly.");
-            return AddModules(assembly.GetTypes().Where(TypeFilter));
+            await VerboseAsync($"Searching for listeners in {assembly.FullName} assembly.").ConfigureAwait(false);
+            return await AddModulesAsync(assembly.GetTypes().Where(TypeFilter)).ConfigureAwait(false);
         }
 
         /// <summary>Adds listeners found in <typeparamref name="T"/></summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IReadOnlyCollection<ListenerInfo> AddModule<T>() => AddModule(typeof(T));
+        public Task<IReadOnlyCollection<ListenerInfo>> AddModuleAsync<T>() => AddModuleAsync(typeof(T));
 
         /// <summary>Adds listeners found in specified type.</summary>
         /// <returns>An enumerable of created listeners.</returns>
-        public IReadOnlyCollection<ListenerInfo> AddModule(Type type)
+        public async Task<IReadOnlyCollection<ListenerInfo>> AddModuleAsync(Type type)
         {
             var builder = ImmutableArray.CreateBuilder<ListenerInfo>();
 
-            DebugAsync($"Searching for listeners in {type.Name}");
+            await DebugAsync($"Searching for listeners in {type.Name}").ConfigureAwait(false);
 
             foreach (var method in type.GetMethods().Where(x => x.GetCustomAttribute<ListenerAttribute>() != null))
             {
                 builder.Add(new ListenerInfo(this, method));
             }
 
-            DebugAsync($"Found {builder.Count} listeners");
-            VerboseAsync($"Preparing to add {builder.Count} listeners");
+            await DebugAsync($"Found {builder.Count} listeners").ConfigureAwait(false);
+            await VerboseAsync($"Preparing to add {builder.Count} listeners").ConfigureAwait(false);
 
             _listeners.AddRange(builder);
             return builder.ToImmutable();
@@ -106,28 +106,28 @@ namespace HelpfulUtilities.Discord.Listeners
 
         /// <summary>Removes specified listeners.</summary>
         /// <returns>Whether remove operation was successful</returns>
-        public bool RemoveModules(IEnumerable<ListenerInfo> listeners)
+        public async Task<bool> RemoveModulesAsync(IEnumerable<ListenerInfo> listeners)
         {
-            VerboseAsync($"Preparing to remove {listeners.Count()} listeners");
+            await VerboseAsync($"Preparing to remove {listeners.Count()} listeners").ConfigureAwait(false);
             foreach (var listener in listeners)
             {
-                if (!RemoveModule(listener))
+                if (!await RemoveModuleAsync(listener).ConfigureAwait(false))
                     return false;
             }
-            DebugAsync($"Removed {listeners.Count()} listeners");
+            await DebugAsync($"Removed {listeners.Count()} listeners").ConfigureAwait(false);
             return true;
         }
 
         /// <summary>Removes specified listener.</summary>
         /// <returns>Whether remove operation was successful</returns>
-        public bool RemoveModule(ListenerInfo listener)
+        public async Task<bool> RemoveModuleAsync(ListenerInfo listener)
         {
-            VerboseAsync($"Preparing to remove {listener.Name}");
+            await VerboseAsync($"Preparing to remove {listener.Name}").ConfigureAwait(false);
             var result = _listeners.Remove(listener);
             if (result)
-                DebugAsync($"Removed listener {listener.Name}");
+                await DebugAsync($"Removed listener {listener.Name}").ConfigureAwait(false);
             else
-                WarnAsync($"Failed to remove listener {listener.Name}");
+                await WarnAsync($"Failed to remove listener {listener.Name}").ConfigureAwait(false);
             return result;
         }
 
@@ -139,24 +139,24 @@ namespace HelpfulUtilities.Discord.Listeners
             where TCommandContext : class, ICommandContext
 
         {
-            await VerboseAsync("Preparing to execute");
+            await VerboseAsync("Preparing to execute").ConfigureAwait(false);
             return await Task.WhenAll(_listeners.Select(async x =>
             {
                 var result = x.CheckPreconditions(context);
                 if (!result.IsSuccess)
                 {
-                    await DebugAsync($"Preconditions on listener {x.Name} failed");
+                    await DebugAsync($"Preconditions on listener {x.Name} failed").ConfigureAwait(false);
                     return result;
                 }
 
                 result = x.Execute(context, services);
                 if (result.IsSuccess)
-                    await VerboseAsync($"Executed {x.Name}");
+                    await VerboseAsync($"Executed {x.Name}").ConfigureAwait(false);
                 else
-                    await ErrorAsync($"{x.Name} failed to execute: {result.ErrorReason}", Enum.GetName(typeof(CommandError), result.Error));
+                    await ErrorAsync($"{x.Name} failed to execute: {result.ErrorReason}", Enum.GetName(typeof(CommandError), result.Error)).ConfigureAwait(false);
 
                 return result;
-            }));
+            })).ConfigureAwait(false);
         }
 
         /// <summary>Offers a default message handler you can subscribe to the message received handler.</summary>
@@ -166,20 +166,20 @@ namespace HelpfulUtilities.Discord.Listeners
         {
             if (msg is IUserMessage message)
             {
-                await VerboseAsync("Constructing context");
+                await VerboseAsync("Constructing context").ConfigureAwait(false);
                 var context = _context(message);
-                await VerboseAsync("Constructing service provider");
+                await VerboseAsync("Constructing service provider").ConfigureAwait(false);
                 var services = _services(context);
 
-                await DebugAsync("Executing message");
-                _ = await ExecuteAsync(context, services);
+                await DebugAsync("Executing message").ConfigureAwait(false);
+                await ExecuteAsync(context, services).ConfigureAwait(false);
             }
         }
 
         private async Task LogInternalAsync(LogSeverity severity, string message, string source, Exception exception)
         {
             if (severity <= _logLevel)
-                await Log(new LogMessage(severity, source, message, exception));
+                await Log(new LogMessage(severity, source, message, exception)).ConfigureAwait(false);
         }
 
         internal Task CriticalAsync(string message, string source = DefaultSource, Exception exception = null)
