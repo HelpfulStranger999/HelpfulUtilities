@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
-using System.Threading;
-using Discord.WebSocket;
 
 namespace HelpfulUtilities.Discord.Extensions
 {

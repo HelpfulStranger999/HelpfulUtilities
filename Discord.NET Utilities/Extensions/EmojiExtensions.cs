@@ -1,8 +1,5 @@
 ﻿using Discord;
 using System;
-#if EMOJI
-using Discord.Addons.EmojiTools;
-#endif
 
 namespace HelpfulUtilities.Discord.Extensions
 {
