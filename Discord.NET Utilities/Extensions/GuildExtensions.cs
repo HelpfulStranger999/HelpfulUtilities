@@ -22,17 +22,11 @@ namespace HelpfulUtilities.Discord.Extensions
 
         /// <summary>Gets a collection of users in this guild, downloading if incomplete.</summary>
         /// <returns>A collection of users in this guild</returns>
-        public static Task<IReadOnlyCollection<SocketGuildUser>> FetchUsersAsync(this SocketGuild guild, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
+        public static async Task<IReadOnlyCollection<IGuildUser>> FetchUsersAsync(this IGuild guild,
+            CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
         {
-            if (guild.HasAllMembers) return Task.FromResult(guild.Users);
-            var source = new TaskCompletionSource<IReadOnlyCollection<SocketGuildUser>>();
-            Task.Run(async () =>
-            {
-                await guild.DownloadUsersAsync();
-                SpinWait.SpinUntil(() => guild.HasAllMembers);
-                source.SetResult(guild.Users);
-            });
-            return source.Task;
+            await guild.DownloadUsersAsync();
+            return await guild.GetUsersAsync(mode, options);
         }
     }
 }
