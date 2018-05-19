@@ -44,8 +44,6 @@ namespace HelpfulUtilities.Discord.Listeners
 
             _context = config.ContextFactory;
             _services = config.ServiceProvider == null ? config.ServiceProviderFactory : _ => config.ServiceProvider;
-
-            VerboseAsync($"{nameof(ListenerService)} initialized").Await(false);
         }
 
         /// <summary>Adds listeners found in specified types.</summary>
