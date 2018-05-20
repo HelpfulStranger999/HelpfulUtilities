@@ -176,7 +176,7 @@ namespace HelpfulUtilities.Discord.Listeners
 
         private async Task LogInternalAsync(LogSeverity severity, string message, string source, Exception exception)
         {
-            if (severity <= _logLevel)
+            if (Log != null && severity <= _logLevel)
                 await Log(new LogMessage(severity, source, message, exception)).ConfigureAwait(false);
         }
 
