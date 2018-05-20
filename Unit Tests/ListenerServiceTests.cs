@@ -14,48 +14,13 @@ namespace Unit_Tests
     [TestClass]
     public class ListenerServiceTests
     {
-
         [TestMethod]
-        public void EnumerableTest()
-        {
-            IEnumerable<int> Power(int number, int exponent)
-            {
-                int result = 1;
-
-                for (int i = 0; i < exponent; i++)
-                {
-                    result = result * number;
-                    yield return result;
-                }
-            }
-
-            var numbers = Power(2, 8);
-            foreach (var n in numbers)
-            {
-                Console.WriteLine(n);
-            }
-        }
-
-        [TestMethod]
-        public async void TestModuleFinder()
+        public async Task TestModuleFinder()
         {
             try
             {
                 var service = new ListenerService();
-                var moduleBase = Assembly.GetAssembly(typeof(CommandService)).GetType("Discord.Commands.IModuleBase", true);
-                var list = new List<Type>();
-
-                foreach (var type in Assembly.GetAssembly(typeof(ListenerModuleOne)).GetTypes())
-                {
-                    var result = type.Extends(moduleBase);
-                    if (result)
-                    {
-                        list.Add(type);
-                    }
-
-                }
-                var types = Assembly.GetAssembly(typeof(ListenerModuleOne)).GetTypes().Where(type => type.Extends(moduleBase)).ToList();
-                await service.AddModulesAsync(Assembly.GetAssembly(typeof(ListenerModuleOne))).ToList();
+                await service.AddModulesAsync(Assembly.GetAssembly(typeof(ListenerModuleOne)));
                 Assert.IsTrue(service.Listeners.Count > 0);
             }
             catch (Exception e)

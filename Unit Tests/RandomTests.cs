@@ -9,7 +9,7 @@ namespace Unit_Tests
     [TestClass]
     public class RandomTests
     {
-        public AdvancedRandom Random { get; } = new AdvancedRandom(false);
+        public AdvancedRandom Random { get; } = new AdvancedRandom();
 
         [TestMethod]
         public void TestBool()
