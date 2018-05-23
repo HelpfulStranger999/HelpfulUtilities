@@ -36,35 +36,40 @@ namespace HelpfulUtilities
         }
 
         /// <summary>
-        /// This method delays for <paramref name="delay"/> milliseconds.
+        /// This method delays for <paramref name="delay"/> milliseconds, cf. <seealso cref="Delay(ulong, CancellationToken?)"/>
         /// </summary>
         /// <param name="delay">How long to wait in milliseconds.</param>
-        /// <seealso cref="Delay(ulong)"/>
-        public static async Task DelayAsync(ulong delay)
+        /// <param name="token">The cancellation token that can be used to cancel the delay</param>
+        public static async Task DelayAsync(ulong delay, CancellationToken? token = null)
         {
+            var _token = token ?? CancellationToken.None;
             var elapsed = 0ul;
-            while (elapsed < delay)
+
+            while (!_token.IsCancellationRequested && elapsed < delay)
             {
                 var remaining = delay - elapsed;
                 var next = remaining >= long.MaxValue / 10000 ? long.MaxValue / 10000 : (long)remaining;
-                await Task.Delay(new TimeSpan(next * 10000));
+                await Task.Delay(TimeSpan.FromMilliseconds(next), _token);
                 elapsed += (ulong)next * 10000;
             }
         }
 
         /// <summary>
-        /// This method delays for <paramref name="delay"/> milliseconds.
+        /// This method delays for <paramref name="delay"/> milliseconds, cf. <seealso cref="DelayAsync(ulong, CancellationToken?)"/>
         /// </summary>
         /// <param name="delay">How long to wait in milliseconds.</param>
-        /// <seealso cref="DelayAsync(ulong)"/>
-        public static void Delay(ulong delay)
+        /// /// <param name="token">The cancellation token that can be used to cancel the delay</param>
+        public static void Delay(ulong delay, CancellationToken? token = null)
         {
+            var _token = token ?? CancellationToken.None;
+            var waiter = _token.WaitHandle;
             var elapsed = 0ul;
-            while (elapsed < delay)
+
+            while (!_token.IsCancellationRequested && elapsed < delay)
             {
                 var remaining = delay - elapsed;
                 var next = remaining >= int.MaxValue ? int.MaxValue : (int)remaining;
-                Thread.Sleep(next);
+                waiter.WaitOne(next);
                 elapsed += (ulong)next;
             }
         }
