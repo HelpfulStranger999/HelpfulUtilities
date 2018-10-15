@@ -34,8 +34,8 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Addons.EmojiTools" Version="2.0.2" />
-    <PackageReference Include="Discord.Net.Commands" Version="2.0.0-beta2-00940" />
-    <PackageReference Include="HelpfulUtilities" Version="1.2.0-alpha" />
+    <PackageReference Include="Discord.Net.Commands" Version="2.0.0-beta2-01001" />
+    <PackageReference Include="HelpfulUtilities" Version="1.2.2-alpha" />
     <PackageReference Include="HelpfulUtilities.Discord" Version="1.0.5-beta" />
   </ItemGroup>
 
