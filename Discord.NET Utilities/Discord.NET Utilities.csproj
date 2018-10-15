@@ -11,10 +11,10 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>discord, discordapp</PackageTags>
     <RepositoryUrl>https://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET Utilities</RepositoryUrl>
-    <PackageReleaseNotes>- Cleanup and updates</PackageReleaseNotes>
-    <AssemblyVersion>1.0.5.0</AssemblyVersion>
-    <FileVersion>1.0.5.0</FileVersion>
-    <Version>1.0.5-beta</Version>
+    <PackageReleaseNotes>- Updates to packages</PackageReleaseNotes>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <FileVersion>1.0.6.0</FileVersion>
+    <Version>1.0.6-beta</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET Utilities</PackageProjectUrl>
   </PropertyGroup>
