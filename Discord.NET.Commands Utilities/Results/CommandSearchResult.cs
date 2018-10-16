@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using System.Collections.Generic;
 
 namespace HelpfulUtilities.Discord.Commands.Results
 {
