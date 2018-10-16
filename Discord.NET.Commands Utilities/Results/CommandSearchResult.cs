@@ -17,6 +17,6 @@ namespace HelpfulUtilities.Discord.Commands.Results
         public static CommandSearchResult FromSuccess(CommandMatch match)
             => new CommandSearchResult(match, null);
         public static CommandSearchResult FromError(CommandMatch? bestMatch, IResult result)
-            => new CommandSearchResult(bestMatch.GetValueOrDefault(default(CommandMatch)), result);
+            => new CommandSearchResult(bestMatch.GetValueOrDefault(default), result);
     }
 }
