@@ -20,20 +20,6 @@ namespace HelpfulUtilities.Discord.Extensions
             await message.DeleteAsync(options);
         }
 
-        /// <summary>Returns a collection of users who reacted to the message with the emote up to <paramref name="limit"/> or all</summary>
-        /// <returns>A collection of users who reacted with the specified emote</returns>
-        [Obsolete("Use IUserMessage#GetReactionUsersAsync instead")]
-        public static Task<IReadOnlyCollection<IUser>> PaginateReactionUsersAsync(this IUserMessage message, IEmote emote, int limit = 1000, RequestOptions options = null)
-            => PaginateReactionUsersAsync(message, emote, limit, options);
-
-        /// <summary>Returns a collection of users who reacted to the message with the emote up to <paramref name="limit"/> or all</summary>
-        /// <returns>A collection of users who reacted with the specified emote</returns>
-        [Obsolete("Use IUserMessage#GetReactionUsersAsync instead")]
-        public static async Task<IReadOnlyCollection<IUser>> PaginateReactionUsersAsync(this IUserMessage message, IEmote emote, int? limit = null, RequestOptions options = null)
-        {
-            return (await message.GetReactionUsersAsync(emote, limit.GetValueOrDefault(1000), options).FlattenAsync()).ToImmutableArray();
-        }
-
         /// <summary>Returns the guild a message was sent in or null.</summary>
         public static IGuild GetGuild(this IMessage message)
         {
