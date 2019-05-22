@@ -98,14 +98,21 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
             if (module.Commands.Count <= 0) throw new InvalidOperationException($"No commands could be found in {module.GetName()}");
             formatter = formatter ?? DefaultFormatter;
 
-            var list = new StringBuilder();
-            foreach (var command in module.Commands)
+            for (var i = 0; i < module.Commands.Count; i += 10)
             {
-                if (command.IsHidden()) { continue; }
-                list.Append(command.GetBriefHelp(prefix));
+                var list = new StringBuilder();
+                foreach (var command in module.Commands.Skip(i).Take(10))
+                {
+                    if (command.IsHidden()) { continue; }
+                    list.Append(command.GetBriefHelp(prefix));
+                }
+
+                if (i < 10)
+                    embed.AddField($"{module.GetName()} Commands", list);
+                else
+                    embed.AddField($"{module.GetName()} Commands (continued)", list);
             }
 
-            embed.AddField($"{module.GetName()} Commands", list);
             return formatter(embed);
         }
     }
