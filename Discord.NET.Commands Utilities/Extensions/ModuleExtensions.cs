@@ -112,7 +112,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
 
                 // If the list is approaching the field limit or the embed
                 // approaching the embed limit after the list is appended
-                if (list.Length > 800 || embed.Length >= 5000)
+                if (list.Length > 800 || (embed.Length + list.Length) >= 5800)
                 {
                     embed.AddField($"{module.GetName()} Commands" + (split ? " (continued)" : ""), list.Length > 0 ? list.ToString() : "No Commands");
                     list.Clear();
