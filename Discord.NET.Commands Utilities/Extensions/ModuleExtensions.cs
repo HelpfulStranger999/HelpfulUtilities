@@ -79,11 +79,6 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
                         list.Add(total[i]);
                     embed = formatter(total[total.Length - 1]);
                 }
-                if (embed.Fields.Count >= 24)
-                {
-                    list.Add(embed);
-                    embed = formatter(new EmbedBuilder());
-                }
             }
 
             list.Add(embed);
@@ -119,7 +114,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
                 // approaching the embed limit after the list is appended
                 if (list.Length > 800 || embed.Length >= 5000)
                 {
-                    embed.AddField($"{module.GetName()} Commands" + (split ? " (continued)" : ""), list);
+                    embed.AddField($"{module.GetName()} Commands" + (split ? " (continued)" : ""), list.Length > 0 ? list.ToString() : "No Commands");
                     list.Clear();
                     split = true;
                 }
@@ -131,7 +126,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
                 }
             }
 
-            embed.AddField($"{module.GetName()} Commands" + (split ? " (continued)" : ""), list);
+            embed.AddField($"{module.GetName()} Commands" + (split ? " (continued)" : ""), list.Length > 0 ? list.ToString() : "No Commands");
             total.Append(formatter(embed));
         }
     }
