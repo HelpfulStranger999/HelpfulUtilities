@@ -72,7 +72,13 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
             foreach (var module in modules)
             {
                 if (module.IsHidden()) { continue; }
-                module.AppendHelp(embed, prefix, formatter);
+                module.AppendHelp(embed, out var total, prefix, formatter);
+                if (total.Length >= 1)
+                {
+                    for (int i = 0; i < total.Length - 1; i++)
+                        list.Add(total[i]);
+                    embed = formatter(total[total.Length - 1]);
+                }
                 if (embed.Fields.Count >= 24)
                 {
                     list.Add(embed);
@@ -87,16 +93,20 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
         /// <summary>Returns a new embed builder with a default command help with an optional prefix
         /// and a function for formatting the embed.</summary>
         /// <returns>The new embed with the provided help for the command</returns>
-        public static EmbedBuilder GetHelp(this ModuleInfo module, string prefix = "", Func<EmbedBuilder, EmbedBuilder> formatter = null)
-            => module.AppendHelp(new EmbedBuilder(), prefix);
+        public static EmbedBuilder[] GetHelp(this ModuleInfo module, string prefix = "", Func<EmbedBuilder, EmbedBuilder> formatter = null)
+        {
+            AppendHelp(module, new EmbedBuilder(), out var total, prefix, formatter);
+            return total;
+        }
 
         /// <summary>Append to the embed a default command help with an optional prefix
         /// and a function for formatting the embed.</summary>
         /// <returns>The embed modified</returns>
-        public static EmbedBuilder AppendHelp(this ModuleInfo module, EmbedBuilder embed, string prefix = "", Func<EmbedBuilder, EmbedBuilder> formatter = null)
+        public static void AppendHelp(this ModuleInfo module, EmbedBuilder embed, out EmbedBuilder[] total, string prefix = "", Func<EmbedBuilder, EmbedBuilder> formatter = null)
         {
             if (module.Commands.Count <= 0) throw new InvalidOperationException($"No commands could be found in {module.GetName()}");
             formatter = formatter ?? DefaultFormatter;
+            total = new EmbedBuilder[0];
 
             var list = new StringBuilder();
             var split = false;
@@ -105,16 +115,24 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
                 if (command.IsHidden()) { continue; }
                 list.Append(command.GetBriefHelp(prefix));
 
-                if (list.Length > 800)
+                // If the list is approaching the field limit or the embed
+                // approaching the embed limit after the list is appended
+                if (list.Length > 800 || embed.Length >= 5000)
                 {
                     embed.AddField($"{module.GetName()} Commands" + (split ? " (continued)" : ""), list);
                     list.Clear();
                     split = true;
                 }
+
+                if (embed.Length >= 5800)
+                {
+                    total.Append(formatter(embed));
+                    embed = new EmbedBuilder();
+                }
             }
 
             embed.AddField($"{module.GetName()} Commands" + (split ? " (continued)" : ""), list);
-            return formatter(embed);
+            total.Append(formatter(embed));
         }
     }
 }
