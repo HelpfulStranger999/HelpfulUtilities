@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>Discord.Addons.Listeners</RootNamespace>
+    <AssemblyName>Discord.Addons.Listeners</AssemblyName>
+    <Authors>HelpfulStranger999</Authors>
+    <Product>HelpfulUtilities.Discord.Listeners</Product>
+    <PackageId>HelpfulUtilities.Discord.Listeners</PackageId>
+    <Description>Provides a service for handling non command messages more smoothly</Description>
+    <PackageTags>Discord, Discordapp</PackageTags>
+    <PackageReleaseNotes>- Updates packages</PackageReleaseNotes>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>git://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.Addons.Listeners</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.Addons.Listeners</PackageProjectUrl>
+    <Version>1.1.4-alpha</Version>
+    <AssemblyVersion>1.1.4.0</AssemblyVersion>
+    <FileVersion>1.1.4.0</FileVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.0\Discord Listeners.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Discord.Net.Commands" Version="2.1.1" />
+    <PackageReference Include="HelpfulUtilities" Version="1.2.2-alpha" />
+  </ItemGroup>
+
+</Project>

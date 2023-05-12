@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.Addons.Listeners", "Discord.Addons.Listeners\Discord.Addons.Listeners.csproj", "{E2407823-0C7C-4218-AEF2-0B0A2317C13E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unit Tests", "Unit Tests\Unit Tests.csproj", "{DB8382DA-857D-433F-87A6-043EF3962B7D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelpfulUtilities", "HelpfulUtilities\HelpfulUtilities.csproj", "{BC008384-F6AE-4D09-9BCA-E5C2BF7CA7D5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.NET.Commands-Utilities", "Discord.NET.Commands Utilities\Discord.NET.Commands-Utilities.csproj", "{BF0EDB10-6B51-4568-8089-ADF3CF7F9764}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.NET Utilities", "Discord.NET Utilities\Discord.NET Utilities.csproj", "{668B2DDD-5699-4FB6-B53A-1FD5E8782783}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E2407823-0C7C-4218-AEF2-0B0A2317C13E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2407823-0C7C-4218-AEF2-0B0A2317C13E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2407823-0C7C-4218-AEF2-0B0A2317C13E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2407823-0C7C-4218-AEF2-0B0A2317C13E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB8382DA-857D-433F-87A6-043EF3962B7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB8382DA-857D-433F-87A6-043EF3962B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB8382DA-857D-433F-87A6-043EF3962B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB8382DA-857D-433F-87A6-043EF3962B7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC008384-F6AE-4D09-9BCA-E5C2BF7CA7D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC008384-F6AE-4D09-9BCA-E5C2BF7CA7D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC008384-F6AE-4D09-9BCA-E5C2BF7CA7D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC008384-F6AE-4D09-9BCA-E5C2BF7CA7D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF0EDB10-6B51-4568-8089-ADF3CF7F9764}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF0EDB10-6B51-4568-8089-ADF3CF7F9764}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF0EDB10-6B51-4568-8089-ADF3CF7F9764}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF0EDB10-6B51-4568-8089-ADF3CF7F9764}.Release|Any CPU.Build.0 = Release|Any CPU
+		{668B2DDD-5699-4FB6-B53A-1FD5E8782783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{668B2DDD-5699-4FB6-B53A-1FD5E8782783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{668B2DDD-5699-4FB6-B53A-1FD5E8782783}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{668B2DDD-5699-4FB6-B53A-1FD5E8782783}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {63C87658-C00D-45D9-B549-74761A92B5C9}
+	EndGlobalSection
+EndGlobal
