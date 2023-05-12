@@ -12,7 +12,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
     {
         internal static async Task<CommandSearchResult> SearchAsync(this CommandService service, ICommandContext context, string input, IServiceProvider services = null)
         {
-            services = services ?? EmptyServiceProvider.Instance;
+            services ??= EmptyServiceProvider.Instance;
 
             var searchResult = service.Search(context, input);
             if (!searchResult.IsSuccess) return CommandSearchResult.FromError(null, searchResult);
@@ -56,7 +56,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
             }
 
             // Calculates the 'score' of a command given a parse result
-            float CalculateScore(CommandMatch match, ParseResult parseResult)
+            static float CalculateScore(CommandMatch match, ParseResult parseResult)
             {
                 var totalScore = 0f;
                 if (match.Command.Parameters.Count > 0)

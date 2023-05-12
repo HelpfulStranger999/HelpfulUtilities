@@ -24,7 +24,7 @@ namespace HelpfulUtilities.Discord.Commands.Readers
                 return !cmd.Command.IsHidden();
             });
 
-            if (matches.Count() <= 0) return Task.FromResult(Error);
+            if (matches.Any()) return Task.FromResult(Error);
 
             var first = matches.FirstOrDefault();
             if (first.Equals(default)) return Task.FromResult(Error);

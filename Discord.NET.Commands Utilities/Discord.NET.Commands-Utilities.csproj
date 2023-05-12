@@ -1,23 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>HelpfulUtilities.Discord.Commands</RootNamespace>
     <PackageId>HelpfulUtilities.Discord.Commands</PackageId>
     <Company>HelpfulStranger999</Company>
     <Authors>HelpfulStranger999</Authors>
     <Description>This package expands upon Helpful Utilities to provide extensions for the Discord.NET Commands library.</Description>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>- Fixes bug where help command breaks a module's commands into individual fields</PackageReleaseNotes>
+    <PackageReleaseNotes>- Update packages and update to .net 5
+- Cleanup</PackageReleaseNotes>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageTags>discord, discordapp</PackageTags>
     <RepositoryUrl>git://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET.Commands Utilities</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.2.2-alpha</Version>
+    <Version>1.3.0-alpha</Version>
     <PackageProjectUrl>https://github.com/HelpfulStranger999/HelpfulUtilities/tree/HelpfulUtilities/Discord.NET.Commands Utilities</PackageProjectUrl>
     <Product>HelpfulUtilities.Discord.Commands</Product>
-    <AssemblyVersion>1.2.2.0</AssemblyVersion>
-    <FileVersion>1.2.2.0</FileVersion>
+    <AssemblyVersion>1.3.0.0</AssemblyVersion>
+    <FileVersion>1.3.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -33,9 +34,11 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Addons.EmojiTools" Version="2.0.2" />
-    <PackageReference Include="Discord.Net.Commands" Version="2.1.1" />
+    <PackageReference Include="Discord.Net.Commands" Version="2.3.0-dev-20201126.1" />
     <PackageReference Include="HelpfulUtilities" Version="1.2.2-alpha" />
-    <PackageReference Include="HelpfulUtilities.Discord" Version="1.1.1" />
+    <PackageReference Include="HelpfulUtilities.Discord" Version="1.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
 
 </Project>

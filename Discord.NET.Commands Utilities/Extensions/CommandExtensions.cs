@@ -94,7 +94,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
         /// <returns>The embed modified</returns>
         public static EmbedBuilder AppendHelp(this CommandInfo command, EmbedBuilder embed, string invite = null, Func<EmbedBuilder, EmbedBuilder> formatter = null)
         {
-            formatter = formatter ?? DefaultFormatter;
+            formatter ??= DefaultFormatter;
             embed.WithTitle($"`{command.GetName()}` Command Help")
                  .WithDescription(command.GetSummary());
 

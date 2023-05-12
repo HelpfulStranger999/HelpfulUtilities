@@ -11,7 +11,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
 {
     public static partial class Extensions
     {
-        private static Func<EmbedBuilder, EmbedBuilder> DefaultFormatter = builder => builder;
+        private static readonly Func<EmbedBuilder, EmbedBuilder> DefaultFormatter = builder => builder;
 
         /// <summary>Returns the attribute of the type on this module.</summary>
         /// <typeparam name="TAttribute">Type of attribute</typeparam>
@@ -65,7 +65,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
         /// <returns>A collection of default help embeds.</returns>
         public static IList<EmbedBuilder> GetHelp(this IEnumerable<ModuleInfo> modules, string prefix = "", Func<EmbedBuilder, EmbedBuilder> formatter = null)
         {
-            formatter = formatter ?? DefaultFormatter;
+            formatter ??= DefaultFormatter;
             var list = new List<EmbedBuilder>();
             var embed = formatter(new EmbedBuilder());
 
@@ -77,7 +77,7 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
                 {
                     for (int i = 0; i < total.Length - 1; i++)
                         list.Add(total[i]);
-                    embed = formatter(total[total.Length - 1]);
+                    embed = formatter(total[^1]);
                 }
             }
 
@@ -100,8 +100,8 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
         public static void AppendHelp(this ModuleInfo module, EmbedBuilder embed, out EmbedBuilder[] total, string prefix = "", Func<EmbedBuilder, EmbedBuilder> formatter = null)
         {
             if (module.Commands.Count <= 0) throw new InvalidOperationException($"No commands could be found in {module.GetName()}");
-            formatter = formatter ?? DefaultFormatter;
-            total = new EmbedBuilder[0];
+            formatter ??= DefaultFormatter;
+            var embeds = new List<EmbedBuilder>();
 
             var list = new StringBuilder();
             var split = false;
@@ -121,13 +121,16 @@ namespace HelpfulUtilities.Discord.Commands.Extensions
 
                 if (embed.Length >= 5800)
                 {
-                    total.Append(formatter(embed));
+                    embeds.Add(formatter(embed));
+
                     embed = new EmbedBuilder();
                 }
             }
 
             embed.AddField($"{module.GetName()} Commands" + (split ? " (continued)" : ""), list.Length > 0 ? list.ToString() : "No Commands");
-            total.Append(formatter(embed));
+            embeds.Add(formatter(embed));
+
+            total = embeds.ToArray();
         }
     }
 }
